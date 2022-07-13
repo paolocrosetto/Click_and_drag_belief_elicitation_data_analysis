@@ -1,4 +1,3 @@
-=======
 # Data and analysis for the Click-and-drag belief interface paper
 
 
