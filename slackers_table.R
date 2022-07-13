@@ -29,8 +29,6 @@ meanslack <- df %>%
   mutate(mean_slack = paste0(round(m,2), " (", round(s,2), ")")) %>% 
   select(treatment, mean_slack)
 
-slackers %>% write_csv("slackers_table.csv")
-
 sink("Tables/slacker_table.tex")
 slackers %>% 
   left_join(meanslack) %>% 
