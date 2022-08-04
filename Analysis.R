@@ -4,18 +4,18 @@
 ###
 ### this version: June/July 2022
 
-library(tidyverse)        # R's dialect used in this script
-library(magrittr)         # additional pipes (%$%)
-library(broom)            # tidy the output of statistical tests and models
+library(tidyverse) # R's dialect used in this script
+library(magrittr) # additional pipes (%$%)
+library(broom) # tidy the output of statistical tests and models
 
-library(ggtext)           # additional plotting package: markdown text
-library(hrbrthemes)       # additional plotting package: theming
-library(scales)           # additional plotting package: percent scales 
+library(ggtext) # additional plotting package: markdown text
+library(hrbrthemes) # additional plotting package: theming
+library(scales) # additional plotting package: percent scales
 
-library(syuzhet)          # textual sentient analysis
+library(syuzhet) # textual sentient analysis
 
-library(kable)            # exporting good looking table, 1
-library(kableExtra)       # exporting good looking table, 2
+library(kable) # exporting good looking table, 1
+library(kableExtra) # exporting good looking table, 2
 
 #### 0. Preliminaries ####
 
@@ -23,26 +23,32 @@ library(kableExtra)       # exporting good looking table, 2
 
 
 # importing the main task data
-df  <- read_csv("Data/main_task_data.csv")
+df <- read_csv("Data/main_task_data.csv")
 
 # target directory for plots
 target_dir_plots <- "Figures/"
 target_dir_tables <- "Tables/"
 
 # making some cosmetic changes for plots and tables
-df <- df %>% 
-  mutate(treatment = as.factor(treatment),
-         treatment = fct_recode(treatment, "Click-and-drag" = "ours",
-                                "Slider"         = "bins",
-                                "Text"           = "number",
-                                "Distribution"   = "metaculus"),
-         treatment = fct_relevel(treatment, "Click-and-drag", "Slider", "Text")) %>% 
-  mutate(time = paste0(time, " seconds"), 
-         nbins = paste0(nbins, " bins"),
-         shape = as.factor(shape), 
-         shape = fct_relevel(shape, "Symmetric", "Skewed", "Bimodal"),
-         nbins = as.factor(nbins),
-         nbins = fct_relevel(nbins, "7 bins", "15 bins"))
+df <- df %>%
+  mutate(
+    treatment = as.factor(treatment),
+    treatment = fct_recode(treatment,
+      "Click-and-drag" = "ours",
+      "Slider" = "bins",
+      "Text" = "number",
+      "Distribution" = "metaculus"
+    ),
+    treatment = fct_relevel(treatment, "Click-and-drag", "Slider", "Text")
+  ) %>%
+  mutate(
+    time = paste0(time, " seconds"),
+    nbins = paste0(nbins, " bins"),
+    shape = as.factor(shape),
+    shape = fct_relevel(shape, "Symmetric", "Skewed", "Bimodal"),
+    nbins = as.factor(nbins),
+    nbins = fct_relevel(nbins, "7 bins", "15 bins")
+  )
 
 #### 1. Sample #####
 

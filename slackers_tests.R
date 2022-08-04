@@ -6,18 +6,24 @@
 
 # counting share of slackers by treatment and by degree of slack
 
-slackers <- df %>% 
-  select(ID, treatment, slack) %>% 
-  distinct() 
+slackers <- df %>%
+  select(ID, treatment, slack) %>%
+  distinct()
 
 # click vs slider: sign
-wilcox.test(slackers$slack[slackers$treatment == "Click-and-drag"],
-            slackers$slack[slackers$treatment == "Slider"]) %>% tidy()
+wilcox.test(
+  slackers$slack[slackers$treatment == "Click-and-drag"],
+  slackers$slack[slackers$treatment == "Slider"]
+) %>% tidy()
 
 # click vs text: NS
-wilcox.test(slackers$slack[slackers$treatment == "Click-and-drag"],
-            slackers$slack[slackers$treatment == "Text"]) %>% tidy()
+wilcox.test(
+  slackers$slack[slackers$treatment == "Click-and-drag"],
+  slackers$slack[slackers$treatment == "Text"]
+) %>% tidy()
 
 # click vs distro: NS
-wilcox.test(slackers$slack[slackers$treatment == "Click-and-drag"],
-            slackers$slack[slackers$treatment == "Distribution"]) %>% tidy()
+wilcox.test(
+  slackers$slack[slackers$treatment == "Click-and-drag"],
+  slackers$slack[slackers$treatment == "Distribution"]
+) %>% tidy()

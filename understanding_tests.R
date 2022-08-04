@@ -4,28 +4,30 @@
 ###
 ### this version: June/July 2022
 
-understanding_test <- df %>% 
-  select(ID, treatment, easy, frustrating, understood) %>% 
-  distinct() %>% 
+understanding_test <- df %>%
+  select(ID, treatment, easy, frustrating, understood) %>%
+  distinct() %>%
   pivot_longer(-ID & -treatment, names_to = "var", values_to = "value")
 
-understanding_test %>% 
-  group_by(var) %>% 
-  filter(treatment %in% c("Click-and-drag", "Slider")) %>% 
-  group_modify(~wilcox.test(value~treatment, data = . ) %>% 
-                 tidy() %>% mutate(p.value = round(p.value, 2)))
+understanding_test %>%
+  group_by(var) %>%
+  filter(treatment %in% c("Click-and-drag", "Slider")) %>%
+  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
+    tidy() %>%
+    mutate(p.value = round(p.value, 2)))
 
 
-understanding_test %>% 
-  group_by(var) %>% 
-  filter(treatment %in% c("Click-and-drag", "Text")) %>% 
-  group_modify(~wilcox.test(value~treatment, data = . ) %>% 
-                 tidy() %>% mutate(p.value = round(p.value, 2)))
+understanding_test %>%
+  group_by(var) %>%
+  filter(treatment %in% c("Click-and-drag", "Text")) %>%
+  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
+    tidy() %>%
+    mutate(p.value = round(p.value, 2)))
 
 
-understanding_test %>% 
-  group_by(var) %>% 
-  filter(treatment %in% c("Click-and-drag", "Distribution")) %>% 
-  group_modify(~wilcox.test(value~treatment, data = . ) %>% 
-                 tidy() %>% mutate(p.value = round(p.value, 2)))
-
+understanding_test %>%
+  group_by(var) %>%
+  filter(treatment %in% c("Click-and-drag", "Distribution")) %>%
+  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
+    tidy() %>%
+    mutate(p.value = round(p.value, 2)))
