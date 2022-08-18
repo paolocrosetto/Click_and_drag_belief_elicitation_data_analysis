@@ -34,12 +34,12 @@ df <- df %>%
   mutate(
     treatment = as.factor(treatment),
     treatment = fct_recode(treatment,
-      "Click-and-drag" = "ours",
+      "Click-and-Drag" = "ours",
       "Slider" = "bins",
       "Text" = "number",
       "Distribution" = "metaculus"
     ),
-    treatment = fct_relevel(treatment, "Click-and-drag", "Slider", "Text")
+    treatment = fct_relevel(treatment, "Click-and-Drag", "Slider", "Text")
   ) %>%
   mutate(
     time = paste0(time, " seconds"),
