@@ -12,7 +12,7 @@ table(devices$os)
 table(devices$device)
 
 # table of devices
-sink("Tables/devices.tex")
+
 devices %>%
   select(treatment, keyboard, mouse, touchpad, touchscreen) %>%
   pivot_longer(-treatment, names_to = "var", values_to = "val") %>%
@@ -23,5 +23,5 @@ devices %>%
   add_header_above(c(
     " " = 1, "Click-and-drag" = 1, "Slider" = 1,
     "Text" = 1, "Distribution" = 1
-  ))
-sink()
+  )) %>% 
+  save_kable("Tables/devices.pdf")

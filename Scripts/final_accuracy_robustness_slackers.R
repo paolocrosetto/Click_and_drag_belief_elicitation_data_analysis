@@ -91,7 +91,6 @@ final %>%
   table(treatment)
 
 # export table
-sink("Tables/overall_results_noslack.tex")
 overalls %>%
   kbl(booktabs = TRUE, format = "latex", col.names = NULL, align = c("lccccc")) %>%
   pack_rows("Overall", 1, 1) %>%
@@ -101,5 +100,5 @@ overalls %>%
   add_header_above(c(
     " " = 1, "Click-and-drag\n(N = 90)" = 1, "Slider\n(N = 83)" = 1,
     "Text\n(N = 47)" = 1, "Distribution\n(N = 2)" = 1
-  ))
-sink()
+  )) %>% 
+  save_kable("Tables/overall_results_noslack.pdf")

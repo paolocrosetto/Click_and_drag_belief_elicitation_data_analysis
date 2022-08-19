@@ -31,7 +31,6 @@ meanslack <- df %>%
   mutate(mean_slack = paste0(round(m, 2), " (", round(s, 2), ")")) %>%
   select(treatment, mean_slack)
 
-sink("Tables/slacker_table.tex")
 slackers %>%
   left_join(meanslack) %>%
   select(treatment, mean_slack, everything()) %>%
@@ -42,5 +41,5 @@ slackers %>%
     "Moderate\n(4-10)" = 1, "Serious\n(11-15)" = 1,
     "Severe\n(15-24)" = 1
   )) %>%
-  add_header_above(c(" " = 1, " " = 1, "Distribution of slackers by type" = 5))
-sink()
+  add_header_above(c(" " = 1, " " = 1, "Distribution of slackers by type" = 5)) %>% 
+  save_kable("Tables/slacker_table.pdf")

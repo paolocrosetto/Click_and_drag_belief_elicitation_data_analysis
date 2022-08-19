@@ -54,7 +54,6 @@ ggsave("Figures/Presentation_self_reported.png", width = 16 / 1.5, height = 12 /
 
 ## table
 
-sink("Tables/understanding.tex")
 understanding %>%
   mutate(
     m = round(mean, 2),
@@ -72,5 +71,5 @@ understanding %>%
   add_header_above(c(
     " " = 1, "Click-and-drag" = 1, "Slider" = 1,
     "Text" = 1, "Distribution" = 1
-  ))
-sink()
+  )) %>% 
+  save_kable("Tables/understanding.pdf")

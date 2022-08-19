@@ -11,7 +11,7 @@ understanding_test <- df %>%
 
 understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-drag", "Slider")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Slider")) %>%
   group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
@@ -19,7 +19,7 @@ understanding_test %>%
 
 understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-drag", "Text")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Text")) %>%
   group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
@@ -27,7 +27,7 @@ understanding_test %>%
 
 understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-drag", "Distribution")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Distribution")) %>%
   group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))

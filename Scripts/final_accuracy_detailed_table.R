@@ -54,7 +54,6 @@ ggsave("Figures/Presentation_final_scores_detailed.png",
 )
 
 # Same, but in a table: one mean + conf.int for each screen (24), each interface (4), for a total of 96 items
-sink("Tables/main_results.tex")
 plotme %>%
   mutate(
     m = round(100 * mean, 2),
@@ -78,5 +77,5 @@ plotme %>%
   add_header_above(c(
     " " = 1, "Click-and-drag" = 1, "Slider" = 1,
     "Text" = 1, "Distribution" = 1
-  ))
-sink()
+  )) %>% 
+  save_kable("Tables/main_results.pdf")

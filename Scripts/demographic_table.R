@@ -38,11 +38,12 @@ demo_table <- df %>%
   mutate(share_noerror = paste0(100 * round(share_noerror, 2), "%")) %>%
   right_join(demo_table)
 
-sink("Tables/demo_table.tex")
 demo_table %>%
   select(-N) %>%
   select(treatment, n, share_f, age, payoff, share_noerror) %>%
   kbl(format = "latex", booktabs = T, col.names = NULL, align = c("lccccc")) %>%
   # kable_styling(full_width = T) %>%
-  add_header_above(c(" " = 1, "N" = 1, "% female" = 1, "mean age (sd)" = 1, "mean payoff (sd)" = 1, "% no error in CQ"))
-sink()
+  add_header_above(c(" " = 1, "N" = 1, "% female" = 1, 
+                     "mean age (sd)" = 1, "mean payoff (sd)" = 1, 
+                     "% no error in CQ")) %>% 
+  save_kable("Tables/demo_table.pdf")

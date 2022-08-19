@@ -19,19 +19,19 @@ kruskal.test(age ~ treatment, data = test_demo) %>% tidy() ## significant
 # why is age significant?
 # click vs slider: sign
 wilcox.test(
-  test_demo$age[test_demo$treatment == "Click-and-drag"],
+  test_demo$age[test_demo$treatment == "Click-and-Drag"],
   test_demo$age[test_demo$treatment == "Slider"]
 ) %>% tidy()
 
 # click vs text: NS
 wilcox.test(
-  test_demo$age[test_demo$treatment == "Click-and-drag"],
+  test_demo$age[test_demo$treatment == "Click-and-Drag"],
   test_demo$age[test_demo$treatment == "Text"]
 ) %>% tidy()
 
 # click vs distro: NS
 wilcox.test(
-  test_demo$age[test_demo$treatment == "Click-and-drag"],
+  test_demo$age[test_demo$treatment == "Click-and-Drag"],
   test_demo$age[test_demo$treatment == "Distribution"]
 ) %>% tidy()
 
@@ -60,19 +60,19 @@ kruskal.test(final_payoff ~ treatment, data = test_demo) %>% tidy() ## significa
 # why is age significant?
 # click vs slider: sign
 wilcox.test(
-  test_demo$final_payoff[test_demo$treatment == "Click-and-drag"],
+  test_demo$final_payoff[test_demo$treatment == "Click-and-Drag"],
   test_demo$final_payoff[test_demo$treatment == "Slider"]
 ) %>% tidy()
 
 # click vs text: NS
 wilcox.test(
-  test_demo$final_payoff[test_demo$treatment == "Click-and-drag"],
+  test_demo$final_payoff[test_demo$treatment == "Click-and-Drag"],
   test_demo$final_payoff[test_demo$treatment == "Text"]
 ) %>% tidy()
 
 # click vs distro: NS
 wilcox.test(
-  test_demo$final_payoff[test_demo$treatment == "Click-and-drag"],
+  test_demo$final_payoff[test_demo$treatment == "Click-and-Drag"],
   test_demo$final_payoff[test_demo$treatment == "Distribution"]
 ) %>% tidy()
 

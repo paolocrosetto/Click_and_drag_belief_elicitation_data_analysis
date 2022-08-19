@@ -55,19 +55,19 @@ kruskal.test(sentiment ~ treatment, data = comm) %>% tidy() ## significant
 # binary tests
 # click vs slider: NS
 wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-drag"],
+  comm$sentiment[comm$treatment == "Click-and-Drag"],
   comm$sentiment[comm$treatment == "Slider"]
 ) %>% tidy()
 
 # click vs text: NS
 wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-drag"],
+  comm$sentiment[comm$treatment == "Click-and-Drag"],
   comm$sentiment[comm$treatment == "Text"]
 ) %>% tidy()
 
 # click vs distro: NS
 wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-drag"],
+  comm$sentiment[comm$treatment == "Click-and-Drag"],
   comm$sentiment[comm$treatment == "Distribution"]
 ) %>% tidy()
 

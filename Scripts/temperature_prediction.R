@@ -104,7 +104,6 @@ ggsave("Figures/NYC_temperature_predictions.png",
 )
 
 # mean and CI of predictions
-sink("Tables/NYC_predictions.tex")
 pred %>%
   select(treatment, prediction, starts_with("estimate")) %>%
   distinct() %>%
@@ -115,8 +114,8 @@ pred %>%
   add_header_above(c(
     " " = 1, "Click-and-drag" = 1, "Slider" = 1,
     "Text" = 1, "Distribution" = 1
-  ))
-sink()
+  )) %>% 
+  save_kable("Tables/NYC_predictions.pdf")
 
 
 # overshooting of avg temp

@@ -14,19 +14,19 @@ final <- df %>%
 # overall accuracy difference
 kruskal.test(score ~ treatment, data = final) %>% tidy() ## significant
 
-# Click-and-drag vs all others
+# Click-and-Drag vs all others
 wilcox.test(
-  final$score[final$treatment == "Click-and-drag"],
+  final$score[final$treatment == "Click-and-Drag"],
   final$score[final$treatment == "Slider"]
 ) %>% tidy()
 
 wilcox.test(
-  final$score[final$treatment == "Click-and-drag"],
+  final$score[final$treatment == "Click-and-Drag"],
   final$score[final$treatment == "Text"]
 ) %>% tidy()
 
 wilcox.test(
-  final$score[final$treatment == "Click-and-drag"],
+  final$score[final$treatment == "Click-and-Drag"],
   final$score[final$treatment == "Distribution"]
 ) %>% tidy()
 
@@ -39,19 +39,19 @@ perfloss <- final %>%
   filter(!is.na(`45 seconds`)) %>%
   mutate(diff = `45 seconds` - `15 seconds`)
 
-# Click-and-drag vs all others
+# Click-and-Drag vs all others
 wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff[perfloss$treatment == "Slider"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff[perfloss$treatment == "Text"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff[perfloss$treatment == "Distribution"]
 ) %>% tidy()
 
@@ -70,34 +70,34 @@ perfloss <- final %>%
     diff_15_30 = `15 bins` - `30 bins`
   )
 
-# Click-and-drag vs all others
+# Click-and-Drag vs all others
 wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_7_15[perfloss$treatment == "Slider"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_7_15[perfloss$treatment == "Text"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_7_15[perfloss$treatment == "Distribution"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_15_30[perfloss$treatment == "Slider"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_15_30[perfloss$treatment == "Text"]
 ) %>% tidy()
 
 wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-drag"],
+  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
   perfloss$diff_15_30[perfloss$treatment == "Distribution"]
 ) %>% tidy()
 
@@ -106,21 +106,21 @@ wilcox.test(
 # tests by shape
 final %>%
   group_by(shape) %>%
-  filter(treatment %in% c("Click-and-drag", "Slider")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Slider")) %>%
   group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
 
 final %>%
   group_by(shape) %>%
-  filter(treatment %in% c("Click-and-drag", "Text")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Text")) %>%
   group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
 
 final %>%
   group_by(shape) %>%
-  filter(treatment %in% c("Click-and-drag", "Distribution")) %>%
+  filter(treatment %in% c("Click-and-Drag", "Distribution")) %>%
   group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))

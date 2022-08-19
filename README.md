@@ -23,7 +23,7 @@ The analysis is fully carried out in the file Analysis.R. This file:
 
 - loads the packages (do install them first if you do not have them yet)
 - loads the data
-- calls on individual files to generate individual figures or tables
+- calls on individual scripts in the `/Scripts` folder to generate individual figures or tables
 
 For each figure or table in the paper, there is one dedicated file. The files are self-standing and can be executed in any order.
 
@@ -31,7 +31,7 @@ For each figure or table in the paper, there is one dedicated file. The files ar
 Figures are saved to the `Figures/` folder. They are the high-resolution images (and do not fit well in the github preview screen) included in the paper. This repo also includes the extra figures created for presentation purposes; those are not included in the paper, and are a visual representation of the results that are mainly exposed using tables in the paper. 
 
 ### Tables
-Tables are saved to the `Tables/` folder. They contain the exact same information as in the paper, and they are formatted for use in the LaTeX source of the paper (i.e. they might not look that good on your screen). 
+Tables are saved to the `Tables/` folder. They are .pdf version of the latex-compiled tables included in the paper. 
 
 ## License
 
