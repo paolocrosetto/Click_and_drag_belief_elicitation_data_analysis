@@ -2,7 +2,7 @@
 
 This repository contains data and analysis for the Paolo Crosetto & Thomas De Haan paper "*Comparing input interfaces to elicit belief distributions*". It allows anyone to reproduce all the analyses carried out in the paper and to download the data for further analysis.
 
-If you want, you can [download the paper here](https://www.dropbox.com/s/d0j0sa6nkn0ybuy/Crosetto_De_Haan_Eliciting_beliefs_when_the_distribution_matters_a_horse_race_of_tools.pdf?dl=1)
+If you want, you can [download the paper here](https://ekstern.filer.uib.no/svf/Econ%20web/2022/08%202022.pdf)
 
 ## Dependencies
 To run the analysis you need R and the following packages (available on CRAN):
