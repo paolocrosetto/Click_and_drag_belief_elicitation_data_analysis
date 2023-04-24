@@ -10,7 +10,23 @@ slackers <- df %>%
   select(ID, treatment, slack) %>%
   distinct()
 
-# click vs slider: sign
+## non parametric
+pairwise.wilcox.test(slackers$slack, slackers$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 4))
+
+## parametric 
+
+# test
+pairwise.t.test(slackers$slack, slackers$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 4))
+
+# cohen
+slackers %>% 
+  coh_d(slack ~ treatment)
+
+
 wilcox.test(
   slackers$slack[slackers$treatment == "Click-and-Drag"],
   slackers$slack[slackers$treatment == "Slider"]
