@@ -49,42 +49,15 @@ comm %>%
   group_by(treatment) %>%
   summarise(m = round(mean(sentiment, na.rm = T), 2), s = round(sd(sentiment, na.rm = T), 2))
 
-# tests
-kruskal.test(sentiment ~ treatment, data = comm) %>% tidy() ## significant
+# tests: non-param
+kruskal.test(sentiment ~ treatment, data = comm) %>% tidy() 
 
-# binary tests
-# click vs slider: NS
-wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-Drag"],
-  comm$sentiment[comm$treatment == "Slider"]
-) %>% tidy()
+# parametric
+anova(lm(sentiment ~ treatment, data = comm)) %>% tidy() 
 
-# click vs text: NS
-wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-Drag"],
-  comm$sentiment[comm$treatment == "Text"]
-) %>% tidy()
 
-# click vs distro: NS
-wilcox.test(
-  comm$sentiment[comm$treatment == "Click-and-Drag"],
-  comm$sentiment[comm$treatment == "Distribution"]
-) %>% tidy()
+# in detail: non parametric
+pairwise.wilcox.test(comm$sentiment, comm$treatment, p.adjust.method = "none") %>% tidy()
 
-# slider vs Text: sign
-wilcox.test(
-  comm$sentiment[comm$treatment == "Slider"],
-  comm$sentiment[comm$treatment == "Text"]
-) %>% tidy()
-
-# slider vs distribution: sign
-wilcox.test(
-  comm$sentiment[comm$treatment == "Slider"],
-  comm$sentiment[comm$treatment == "Distribution"]
-) %>% tidy()
-
-# distribution vs Text: NS
-wilcox.test(
-  comm$sentiment[comm$treatment == "Text"],
-  comm$sentiment[comm$treatment == "Distribution"]
-) %>% tidy()
+# in detail: parametric
+pairwise.t.test(comm$sentiment, comm$treatment, p.adjust.method = "none") %>% tidy()
