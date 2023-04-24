@@ -10,27 +10,37 @@ final <- df %>%
   filter(second == max(second))
 
 
+#### overall accuracy difference ####
 
-# overall accuracy difference
-kruskal.test(score ~ treatment, data = final) %>% tidy() ## significant
+## non-parametric
+kruskal.test(score ~ treatment, data = final) %>% tidy() 
+
+## parametric
+anova(lm(score ~ treatment, data = final)) %>% tidy()
 
 # Click-and-Drag vs all others
-wilcox.test(
-  final$score[final$treatment == "Click-and-Drag"],
-  final$score[final$treatment == "Slider"]
-) %>% tidy()
 
-wilcox.test(
-  final$score[final$treatment == "Click-and-Drag"],
-  final$score[final$treatment == "Text"]
-) %>% tidy()
+## non-parametric
+pairwise.wilcox.test(final$score, final$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  final$score[final$treatment == "Click-and-Drag"],
-  final$score[final$treatment == "Distribution"]
-) %>% tidy()
+## parametric
+acc_test <- pairwise.t.test(final$score, final$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-# loss in performance 45 vs 15
+acc_cohen <- final %>% 
+  coh_d(score~treatment)
+
+acc_test %>% 
+  left_join(acc_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+  arrange(p.value) %>% 
+  mutate(p.value = round(p.value, 3))
+
+
+#### loss in performance 45 vs 15 ####
+
 perfloss <- final %>%
   group_by(ID, treatment, shape, nbins, time) %>%
   select(score) %>%
@@ -39,24 +49,25 @@ perfloss <- final %>%
   filter(!is.na(`45 seconds`)) %>%
   mutate(diff = `45 seconds` - `15 seconds`)
 
-# Click-and-Drag vs all others
-wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff[perfloss$treatment == "Slider"]
-) %>% tidy()
+# Click-and-Drag vs all others: non paramteric
+pairwise.wilcox.test(perfloss$diff, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff[perfloss$treatment == "Text"]
-) %>% tidy()
+# Click-and-Drag vs all others: paramteric
+loss_test <- pairwise.t.test(perfloss$diff, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff[perfloss$treatment == "Distribution"]
-) %>% tidy()
+loss_cohen <- perfloss %>% 
+  coh_d(diff~treatment)
 
+loss_test %>% 
+  left_join(loss_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+  arrange(p.value) %>% 
+  mutate(p.value = round(p.value, 3))
 
-# loss in perf 7 vs 15
+#### loss in performance in bins: 7 vs 15 vs 30 bins ####
 
 perfloss <- final %>%
   group_by(ID, treatment, shape, nbins, time) %>%
@@ -70,57 +81,60 @@ perfloss <- final %>%
     diff_15_30 = `15 bins` - `30 bins`
   )
 
-# Click-and-Drag vs all others
-wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_7_15[perfloss$treatment == "Slider"]
-) %>% tidy()
+# Click-and-Drag vs all others: non parametric
+# 7 vs 15
+pairwise.wilcox.test(perfloss$diff_7_15, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_7_15[perfloss$treatment == "Text"]
-) %>% tidy()
+#15 vs 30
+pairwise.wilcox.test(perfloss$diff_15_30, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff_7_15[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_7_15[perfloss$treatment == "Distribution"]
-) %>% tidy()
+# Click-and-Drag vs all others: parametric
+test_7_15 <- pairwise.t.test(perfloss$diff_7_15, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_15_30[perfloss$treatment == "Slider"]
-) %>% tidy()
+cohen_7_15 <- perfloss %>% 
+  coh_d(diff_7_15~treatment)
 
-wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_15_30[perfloss$treatment == "Text"]
-) %>% tidy()
+test_7_15 %>% 
+  left_join(cohen_7_15, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+  arrange(p.value) %>% 
+  mutate(p.value = round(p.value, 3))
 
-wilcox.test(
-  perfloss$diff_15_30[perfloss$treatment == "Click-and-Drag"],
-  perfloss$diff_15_30[perfloss$treatment == "Distribution"]
-) %>% tidy()
+#15 vs 30
+test_15_30 <- pairwise.t.test(perfloss$diff_15_30, perfloss$treatment, p.adjust.method = "none") %>% 
+  tidy() %>% 
+  mutate(p.value = round(p.value, 3))
+
+cohen_15_30 <- perfloss %>% 
+  coh_d(diff_15_30~treatment)
+
+test_15_30 %>% 
+  left_join(cohen_15_30, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+  arrange(p.value) %>% 
+  mutate(p.value = round(p.value, 3))
+
+##### tests by shape ####
 
 
-
-# tests by shape
-final %>%
+## non parametric
+shape_wilcox <- final %>%
   group_by(shape) %>%
-  filter(treatment %in% c("Click-and-Drag", "Slider")) %>%
-  group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
+  group_modify(~ pairwise.wilcox.test(.$score, .$treatment, p.adjust.method = "none") %>%
+                 tidy() %>%
+                 mutate(p.value = round(p.value, 2)))
+
+## parametric
+shape_t <- final %>%
+  group_by(shape) %>%
+  group_modify(~ pairwise.t.test(.$score, .$treatment, p.adjust.method = "none") %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
 
-final %>%
+shape_cohen <- final %>%
   group_by(shape) %>%
-  filter(treatment %in% c("Click-and-Drag", "Text")) %>%
-  group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
-    tidy() %>%
-    mutate(p.value = round(p.value, 2)))
-
-final %>%
-  group_by(shape) %>%
-  filter(treatment %in% c("Click-and-Drag", "Distribution")) %>%
-  group_modify(~ wilcox.test(score ~ treatment, data = .) %>%
-    tidy() %>%
-    mutate(p.value = round(p.value, 2)))
+  group_modify(~ coh_d(data = ., formula = score ~ treatment))
