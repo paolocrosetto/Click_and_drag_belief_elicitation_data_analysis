@@ -12,6 +12,8 @@ library(ggtext) # additional plotting package: markdown text
 library(hrbrthemes) # additional plotting package: theming
 library(scales) # additional plotting package: percent scales
 
+library(esvis) # to compute cohen's d effect sizes
+
 library(syuzhet) # textual sentient analysis
 
 library(kableExtra) # exporting good looking table, 2
