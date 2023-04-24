@@ -67,7 +67,7 @@ pay_cohen <- test_demo %>%
   coh_d(final_payoff~treatment)
 
 pay_test %>% 
-  left_join(age_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+  left_join(pay_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
   arrange(p.value) %>% 
   mutate(p.value = round(p.value, 3))
 
