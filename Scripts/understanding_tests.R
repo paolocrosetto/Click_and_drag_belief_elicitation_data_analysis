@@ -9,25 +9,24 @@ understanding_test <- df %>%
   distinct() %>%
   pivot_longer(-ID & -treatment, names_to = "var", values_to = "value")
 
+## non parametric
 understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-Drag", "Slider")) %>%
-  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
+  group_modify(~ pairwise.wilcox.test(.$value, .$treatment, p.adjust.method = "none") %>%
     tidy() %>%
     mutate(p.value = round(p.value, 2)))
 
 
+## parametric
+
+# test
 understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-Drag", "Text")) %>%
-  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
-    tidy() %>%
-    mutate(p.value = round(p.value, 2)))
+  group_modify(~ pairwise.t.test(.$value, .$treatment, p.adjust.method = "none") %>%
+                 tidy() %>%
+                 mutate(p.value = round(p.value, 2)))
 
-
-understanding_test %>%
+# cohen
+cohen_understand <- understanding_test %>%
   group_by(var) %>%
-  filter(treatment %in% c("Click-and-Drag", "Distribution")) %>%
-  group_modify(~ wilcox.test(value ~ treatment, data = .) %>%
-    tidy() %>%
-    mutate(p.value = round(p.value, 2)))
+  group_modify(~ coh_d(data = ., formula = value ~ treatment))
