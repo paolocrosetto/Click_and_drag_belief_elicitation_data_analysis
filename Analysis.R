@@ -18,6 +18,8 @@ library(syuzhet) # textual sentient analysis
 
 library(kableExtra) # exporting good looking table, 2
 
+library(gtools) # to set up the list of combinations needed to perform pairwise tests over pairs of treatments
+
 #### 0. Preliminaries ####
 
 # getting to the right place
@@ -50,6 +52,23 @@ df <- df %>%
     nbins = as.factor(nbins),
     nbins = fct_relevel(nbins, "7 bins", "15 bins")
   )
+
+
+## helper function: detailed pairwise t-test
+mypairedt <- function(data, var1, groupvar) {
+  
+  formula <- as.formula(paste(var1, "~", groupvar))
+  
+  grouping <- combinations(n = 4, r = 2, 
+                           v = levels(df[[groupvar]]), 
+                           repeats.allowed = FALSE) %>% as_tibble()
+  
+  df <- map2_df(grouping$V1, grouping$V2, ~tidy(t.test(formula, 
+                                                       data = data %>% filter(treatment %in% c(.x,.y)) )))
+  df %>% bind_cols(grouping) %>% 
+    select(group1 = V1, group2 = V2, statistic, parameter, p.value)
+}
+
 
 #### 1. Sample #####
 
