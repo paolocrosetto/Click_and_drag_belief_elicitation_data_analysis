@@ -60,7 +60,7 @@ paired_plus_cohen <- function(data, var1, groupvar) {
   formula <- as.formula(paste(var1, "~", groupvar))
   
   grouping <- combinations(n = 4, r = 2, 
-                           v = levels(df[[groupvar]]), 
+                           v = levels(data[[groupvar]]), 
                            repeats.allowed = FALSE) %>% as_tibble()
   
   tests <- map2_df(grouping$V1, grouping$V2, ~tidy(t.test(formula, 
