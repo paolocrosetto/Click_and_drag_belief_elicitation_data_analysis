@@ -17,29 +17,5 @@ pairwise.wilcox.test(slackers$slack, slackers$treatment, p.adjust.method = "none
 
 ## parametric 
 
-# test
-pairwise.t.test(slackers$slack, slackers$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 4))
-
-# cohen
-slackers %>% 
-  coh_d(slack ~ treatment)
-
-
-wilcox.test(
-  slackers$slack[slackers$treatment == "Click-and-Drag"],
-  slackers$slack[slackers$treatment == "Slider"]
-) %>% tidy()
-
-# click vs text: NS
-wilcox.test(
-  slackers$slack[slackers$treatment == "Click-and-Drag"],
-  slackers$slack[slackers$treatment == "Text"]
-) %>% tidy()
-
-# click vs distro: NS
-wilcox.test(
-  slackers$slack[slackers$treatment == "Click-and-Drag"],
-  slackers$slack[slackers$treatment == "Distribution"]
-) %>% tidy()
+# test + cohen
+paired_plus_cohen(slackers, "slack", "treatment")
