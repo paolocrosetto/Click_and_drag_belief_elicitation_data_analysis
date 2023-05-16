@@ -34,17 +34,8 @@ pairwise.wilcox.test(final$score, final$treatment, p.adjust.method = "none") %>%
   mutate(p.value = round(p.value, 3))
 
 ## parametric
-acc_test <- pairwise.t.test(final$score, final$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 3))
 
-acc_cohen <- final %>% 
-  coh_d(score~treatment)
-
-acc_test %>% 
-  left_join(acc_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value) %>% 
-  mutate(p.value = round(p.value, 3))
+paired_plus_cohen(final, "score", "treatment")
 
 
 #### loss in performance 45 vs 15 ####
@@ -63,17 +54,7 @@ pairwise.wilcox.test(perfloss$diff, perfloss$treatment, p.adjust.method = "none"
   mutate(p.value = round(p.value, 3))
 
 # Click-and-Drag vs all others: paramteric
-loss_test <- pairwise.t.test(perfloss$diff, perfloss$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 3))
-
-loss_cohen <- perfloss %>% 
-  coh_d(diff~treatment)
-
-loss_test %>% 
-  left_join(loss_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value) %>% 
-  mutate(p.value = round(p.value, 3))
+paired_plus_cohen(perfloss, "diff", "treatment")
 
 #### loss in performance in bins: 7 vs 15 vs 30 bins ####
 
@@ -96,35 +77,10 @@ pairwise.wilcox.test(perfloss$diff_7_15, perfloss$treatment, p.adjust.method = "
   mutate(p.value = round(p.value, 3))
 
 #15 vs 30
-pairwise.wilcox.test(perfloss$diff_15_30, perfloss$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 3))
+paired_plus_cohen(perfloss, "diff_15_30", "treatment")
 
-# Click-and-Drag vs all others: parametric
-test_7_15 <- pairwise.t.test(perfloss$diff_7_15, perfloss$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 3))
-
-cohen_7_15 <- perfloss %>% 
-  coh_d(diff_7_15~treatment)
-
-test_7_15 %>% 
-  left_join(cohen_7_15, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value) %>% 
-  mutate(p.value = round(p.value, 3))
-
-#15 vs 30
-test_15_30 <- pairwise.t.test(perfloss$diff_15_30, perfloss$treatment, p.adjust.method = "none") %>% 
-  tidy() %>% 
-  mutate(p.value = round(p.value, 3))
-
-cohen_15_30 <- perfloss %>% 
-  coh_d(diff_15_30~treatment)
-
-test_15_30 %>% 
-  left_join(cohen_15_30, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value) %>% 
-  mutate(p.value = round(p.value, 3))
+#7 vs 15
+paired_plus_cohen(perfloss, "diff_7_15", "treatment")
 
 ##### tests by shape ####
 
@@ -137,13 +93,7 @@ shape_wilcox <- final %>%
                  mutate(p.value = round(p.value, 2)))
 
 ## parametric
-shape_t <- final %>%
+final %>%
   group_by(shape) %>%
-  group_modify(~ pairwise.t.test(.$score, .$treatment, p.adjust.method = "none") %>%
-                 tidy() %>%
-                 mutate(p.value = round(p.value, 2)))
-
-shape_cohen <- final %>%
-  group_by(shape) %>%
-  group_modify(~ coh_d(data = ., formula = score ~ treatment))
+  group_modify(~ paired_plus_cohen(., "score", "treatment"))
 
