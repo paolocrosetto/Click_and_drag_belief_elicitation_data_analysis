@@ -54,8 +54,8 @@ df <- df %>%
   )
 
 
-## helper function: detailed pairwise t-test
-mypairedt <- function(data, var1, groupvar) {
+## helper function: detailed pairwise t-test and cohen's d
+paired_plus_cohen <- function(data, var1, groupvar) {
   
   formula <- as.formula(paste(var1, "~", groupvar))
   
@@ -63,10 +63,21 @@ mypairedt <- function(data, var1, groupvar) {
                            v = levels(df[[groupvar]]), 
                            repeats.allowed = FALSE) %>% as_tibble()
   
-  df <- map2_df(grouping$V1, grouping$V2, ~tidy(t.test(formula, 
+  tests <- map2_df(grouping$V1, grouping$V2, ~tidy(t.test(formula, 
                                                        data = data %>% filter(treatment %in% c(.x,.y)) )))
-  df %>% bind_cols(grouping) %>% 
+  tests <- tests %>% bind_cols(grouping) %>% 
     select(group1 = V1, group2 = V2, statistic, parameter, p.value)
+  
+  
+  
+  
+  cohen <- data %>% 
+    coh_d(formula)
+  
+  tests %>% 
+    left_join(cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
+    arrange(p.value) %>% 
+    mutate(p.value = round(p.value, 3))
 }
 
 

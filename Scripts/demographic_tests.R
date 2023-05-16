@@ -33,17 +33,8 @@ pairwise.wilcox.test(test_demo$age, test_demo$treatment, p.adjust.method = "none
 anova(lm(age ~ treatment, data = test_demo)) %>% tidy() ## significant
 
 
-# why is age significant?
-# click vs slider: sign
-age_test <- mypairedt(test_demo, "age", "treatment")
-
-
-age_cohen <- test_demo %>% 
-  coh_d(age~treatment)
-  
-age_test %>% 
-  left_join(age_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value)
+# by treatment
+paired_plus_cohen(test_demo, "age", "treatment")
 
 
 
@@ -61,16 +52,8 @@ anova(lm(final_payoff ~ treatment, data = test_demo)) %>% tidy() ## significant
 
 
 # why is payoff difference significant?
-# click vs slider: sign
-pay_test <- mypairedt(test_demo, "final_payoff", "treatment")
+paired_plus_cohen(test_demo, "final_payoff", "treatment")
 
-pay_cohen <- test_demo %>% 
-  coh_d(final_payoff~treatment)
-
-pay_test %>% 
-  left_join(pay_cohen, by = c("group1" = "treatment_ref", "group2" = "treatment_foc")) %>% 
-  arrange(p.value) %>% 
-  mutate(p.value = round(p.value, 3))
 
 #### control questions ####
 
