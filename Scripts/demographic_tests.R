@@ -35,7 +35,8 @@ anova(lm(age ~ treatment, data = test_demo)) %>% tidy() ## significant
 
 # why is age significant?
 # click vs slider: sign
-age_test <- pairwise.t.test(test_demo$age, test_demo$treatment, p.adjust.method = "none") %>% tidy()
+age_test <- mypairedt(test_demo, "age", "treatment")
+
 
 age_cohen <- test_demo %>% 
   coh_d(age~treatment)
@@ -61,7 +62,7 @@ anova(lm(final_payoff ~ treatment, data = test_demo)) %>% tidy() ## significant
 
 # why is payoff difference significant?
 # click vs slider: sign
-pay_test <- pairwise.t.test(test_demo$final_payoff, test_demo$treatment, p.adjust.method = "none") %>% tidy()
+pay_test <- mypairedt(test_demo, "final_payoff", "treatment")
 
 pay_cohen <- test_demo %>% 
   coh_d(final_payoff~treatment)
