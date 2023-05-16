@@ -60,4 +60,4 @@ anova(lm(sentiment ~ treatment, data = comm)) %>% tidy()
 pairwise.wilcox.test(comm$sentiment, comm$treatment, p.adjust.method = "none") %>% tidy()
 
 # in detail: parametric
-pairwise.t.test(comm$sentiment, comm$treatment, p.adjust.method = "none") %>% tidy()
+paired_plus_cohen(comm, "sentiment", "treatment")
