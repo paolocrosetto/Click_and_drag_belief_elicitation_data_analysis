@@ -19,14 +19,8 @@ understanding_test %>%
 
 ## parametric
 
-# test
 understanding_test %>%
   group_by(var) %>%
-  group_modify(~ pairwise.t.test(.$value, .$treatment, p.adjust.method = "none") %>%
-                 tidy() %>%
-                 mutate(p.value = round(p.value, 2)))
+  group_modify(~paired_plus_cohen(., "value", "treatment")) %>% 
+  arrange(p.value)
 
-# cohen
-cohen_understand <- understanding_test %>%
-  group_by(var) %>%
-  group_modify(~ coh_d(data = ., formula = value ~ treatment))
