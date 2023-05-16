@@ -276,8 +276,8 @@ scores %>%
 df_sr %>% 
   pivot_longer(ends_with("SR"), names_to = "rule", values_to = "value") %>% 
   group_by(rule) %>% 
-  group_modify(~tidy(pairwise.t.test(.$value, .$treatment, p.adjust.method = "none"))) %>% 
-  arrange(rule, group2, p.value)
+  mutate(treatment = as.factor(treatment)) %>% 
+  group_modify(~paired_plus_cohen(., "value", "treatment"))
 
 
 ## mean estimates by treatment
