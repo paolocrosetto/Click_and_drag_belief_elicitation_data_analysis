@@ -39,7 +39,7 @@ In `Data` you can find the clean data file -- i.e., the result of running `impor
 ## Variable codebook
 
 | Variable       | Type      | Description                                                                                                                              |
-|------------|-----------|---------------------------------------------------|
+|----------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------|
 | `ID`           | character | Unique subject identifier                                                                                                                |
 | `trial`        | integer   | Unique trial identifier for each subject                                                                                                 |
 | `time`         | integer   | Time allotted to finish the task (15 or 45 seconds)                                                                                      |
