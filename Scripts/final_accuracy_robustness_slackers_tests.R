@@ -37,6 +37,13 @@ pairwise.wilcox.test(final$score, final$treatment, p.adjust.method = "none") %>%
 
 paired_plus_cohen(final, "score", "treatment")
 
+## parametric averaging over subjects first
+
+final %>% 
+  group_by(ID, treatment) %>% 
+  summarise(score = mean(score, na.rm = T)) %>% 
+  paired_plus_cohen("score", "treatment") %>% 
+  filter(group1 == "Click-and-Drag")
 
 #### loss in performance 45 vs 15 ####
 
